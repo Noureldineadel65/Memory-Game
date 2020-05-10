@@ -1,17 +1,17 @@
 const boxes = document.querySelectorAll(".single-box");
 const cards = {
-	1: "https://img.icons8.com/color/480/c-programming.png",
-	2: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1200px-ISO_C%2B%2B_Logo.svg.png",
-	3: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/C_Sharp_logo.svg/1200px-C_Sharp_logo.svg.png",
-	4: "https://seeklogo.com/images/J/java-logo-7F8B35BAB3-seeklogo.com.png",
-	5: "https://f1.pngfuel.com/png/835/530/416/python-logo-programming-language-computer-programming-python-programming-basics-for-absolute-beginners-scripting-language-source-code-php-code-climate-inc-png-clip-art.png",
-	6: "https://www.pngitem.com/pimgs/m/341-3412303_go-programming-language-logo-hd-png-download.png",
-	7: "https://pngimg.com/uploads/php/php_PNG7.png",
-	8: "https://pluralsight2.imgix.net/paths/images/javascript-542e10ea6e.png",
-	9: "https://cdn.worldvectorlogo.com/logos/perl-programming-language.svg",
-	10: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png",
-	11: "https://www.pngitem.com/pimgs/m/12-120179_best-free-ruby-png-ruby-programming-language-logo.png",
-	12: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Swift_logo.svg/1200px-Swift_logo.svg.png",
+	1: "./images/1.JPG",
+	2: "./images/2.JPG",
+	3: "./images/3.PNG",
+	4: "./images/4.PNG",
+	5: "./images/5.JPG",
+	6: "./images/6.JPG",
+	7: "./images/7.JPG",
+	8: "./images/8.JPG",
+	9: "./images/9.JPG",
+	10: "./images/10.JPG",
+	11: "./images/11.JPG",
+	12: "./images/12.JPG",
 };
 let activeCards = false;
 function uploadPictures() {
@@ -34,18 +34,42 @@ function uploadPictures() {
 			)
 		];
 		secondEl.dataset.occupied = true;
+
 		firstEl.classList.add(i);
 		secondEl.classList.add(i);
 		firstEl.innerHTML = `<img src="${cards[i]}" />`;
+		secondEl.innerHTML = `<img src="${cards[i]}" />`;
 	}
+	document
+		.querySelectorAll(".flip-card-inner")
+		.forEach((e) => e.classList.add("revealed"));
+	setTimeout(() => {
+		document
+			.querySelectorAll(".flip-card-inner")
+			.forEach((e) => e.classList.remove("revealed"));
+	}, 2000);
 	// ;
 }
 uploadPictures();
+function checkMatched() {
+	const numbers = [];
+	document.querySelectorAll(".on").forEach((e) => {
+		numbers.push(e.querySelector(".flip-card-back").classList[1]);
+	});
+	if (numbers[0] == numbers[1]) {
+		document.querySelectorAll(".on").forEach((e) => {
+			e.classList.add("matched");
+		});
+		document.querySelector("#score").textContent--;
+	}
+}
 function handleCardClick(e) {
 	if (!activeCards) {
 		e.querySelector(".flip-card-inner").classList.toggle("on");
 		if (document.querySelectorAll(".on").length === 2) {
+			let match = false;
 			activeCards = true;
+			checkMatched();
 			setTimeout(() => {
 				document
 					.querySelectorAll(".on")
